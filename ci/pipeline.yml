@@ -1,0 +1,14 @@
+resources:
+  - name: bosh-proctor
+    type: git
+    source:
+      uri: git://github.com/rosenhouse/bosh-proctor
+      branch: master
+
+jobs:
+  - name: test
+    plan:
+      - get: bosh-proctor
+        trigger: true
+      - task: test
+        file: bosh-proctor/ci/test.yml
