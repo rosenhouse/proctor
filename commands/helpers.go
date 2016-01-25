@@ -34,12 +34,13 @@ func newControllerFromEnv() controller.Controller {
 	webClient := &client.WebClient{}
 	jsonClient := client.JSONClient{BaseURL: atlasBaseURL}
 	atlasClient := &client.AtlasClient{&jsonClient}
-	awsClient := aws.New(aws.Config{
+	awsClient, err := aws.New(aws.Config{
 		AccessKey:  loadOrFail("AWS_ACCESS_KEY_ID"),
 		SecretKey:  loadOrFail("AWS_SECRET_ACCESS_KEY"),
 		RegionName: awsRegion,
 		Bucket:     "bosh101",
 	})
+	say.ExitIfError("internal error: unable to create AWS client", err)
 	parallelRunner := &shell.ParallelRunner{Runner: &shell.Runner{}}
 
 	controller := controller.Controller{

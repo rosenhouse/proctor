@@ -28,12 +28,14 @@ func TestProctor(t *testing.T) {
 var awsClient *aws.Client
 
 var _ = BeforeSuite(func() {
-	awsClient = aws.New(aws.Config{
+	var err error
+	awsClient, err = aws.New(aws.Config{
 		AccessKey:  loadOrFail("AWS_ACCESS_KEY_ID"),
 		SecretKey:  loadOrFail("AWS_SECRET_ACCESS_KEY"),
 		RegionName: loadOrFail("AWS_DEFAULT_REGION"),
 		Bucket:     "bosh101",
 	})
+	Expect(err).NotTo(HaveOccurred())
 })
 
 func loadOrFail(varName string) string {

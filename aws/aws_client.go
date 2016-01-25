@@ -9,6 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/aws/aws-sdk-go/service/route53"
 	"github.com/aws/aws-sdk-go/service/s3"
+	"github.com/aws/aws-sdk-go/aws/session"
 )
 
 type Endpoints struct {
@@ -67,35 +68,58 @@ type Config struct {
 	// HostedZoneID      string
 	// HostedZoneName    string
 	Bucket            string
-	EndpointOverrides *Endpoints
+		EndpointOverrides         map[string]string
 }
 
-func New(config Config) *Client {
+func (c *Config) getEndpoint(serviceName string) (*aws.Config, error) {
+	if c.EndpointOverrides == nil {
+		return &aws.Config{}, nil
+	}
+	endpointOverride, ok := c.EndpointOverrides[serviceName]
+	if !ok || endpointOverride == "" {
+		return nil, fmt.Errorf("EndpointOverrides set, but missing required service %q", serviceName)
+	}
+	return &aws.Config{Endpoint: aws.String(endpointOverride)}, nil
+}
+
+func New(config Config) (*Client, error) {
 	credentials := credentials.NewStaticCredentials(config.AccessKey, config.SecretKey, "")
 	sdkConfig := &aws.Config{
 		Credentials: credentials,
 		Region:      aws.String(config.RegionName),
 	}
 
-	endpointOverrides := config.EndpointOverrides
-	if endpointOverrides == nil {
-		endpointOverrides = &Endpoints{}
-	}
+	session := session.New(sdkConfig)
 
-	route53Client := route53.New(sdkConfig.Merge(&aws.Config{MaxRetries: aws.Int(7), Endpoint: aws.String(endpointOverrides.Route53)}))
-	ec2Client := ec2.New(sdkConfig.Merge(&aws.Config{MaxRetries: aws.Int(7), Endpoint: aws.String(endpointOverrides.EC2)}))
-	s3Client := s3.New(sdkConfig.Merge(&aws.Config{MaxRetries: aws.Int(7), Endpoint: aws.String(endpointOverrides.S3), S3ForcePathStyle: aws.Bool(true)}))
-	cloudformationClient := cloudformation.New(sdkConfig.Merge(&aws.Config{MaxRetries: aws.Int(7), Endpoint: aws.String(endpointOverrides.Cloudformation)}))
+	route53EndpointConfig, err := config.getEndpoint("route53")
+if err != nil {
+	return nil, err
+}
+
+	ec2EndpointConfig, err := config.getEndpoint("ec2")
+if err != nil {
+	return nil, err
+}
+
+	s3EndpointConfig, err := config.getEndpoint("s3")
+if err != nil {
+	return nil, err
+}
+
+	cloudformationEndpointConfig, err := config.getEndpoint("cloudformation")
+if err != nil {
+	return nil, err
+}
 
 	return &Client{
-		EC2:            ec2Client,
-		S3:             s3Client,
-		Route53:        route53Client,
-		Cloudformation: cloudformationClient,
+		EC2:            ec2.New(session, ec2EndpointConfig),
+		S3:             s3.New(session, s3EndpointConfig),
+		Route53:        route53.New(session, route53EndpointConfig),
+		Cloudformation: cloudformation.New(session, cloudformationEndpointConfig),
 		// HostedZoneID:   config.HostedZoneID,
 		// HostedZoneName: config.HostedZoneName,
 		Bucket: config.Bucket,
-	}
+	}, nil
 }
 
 func toStringPointers(strings ...string) []*string {
