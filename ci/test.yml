@@ -1,0 +1,12 @@
+---
+image: docker:///golang
+
+platform: linux
+
+inputs:
+  - name: bosh-proctor
+
+run:
+  path: bosh-proctor/ci/test.sh
+
+params: {}
