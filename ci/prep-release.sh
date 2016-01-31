@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e -u -x
 
-export OUT_BINARIES=$PWD/bin
-export OUT_NOTES=$PWD/notes
+export OUT_BINARIES=$PWD/binaries
+export OUT_NOTES=$PWD/release-notes
 
 version=$(cat version/number)
 echo "v${version}" > $OUT_NOTES/name
@@ -20,5 +20,8 @@ cd src/github.com/rosenhouse/proctor
 for os in linux darwin windows; do
   GOOS=$os go build -o $OUT_BINARIES/proctor-$os
 done
+
+git config --global user.email "$GIT_USER_EMAIL"
+git config --global user.name "$GIT_USER_NAME"
 
 git rev-parse HEAD > $OUT_NOTES/commitish

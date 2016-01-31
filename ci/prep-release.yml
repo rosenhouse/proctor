@@ -8,10 +8,12 @@ inputs:
   - name: version
 
 outputs:
-  - name: bin
-  - name: notes
+  - name: binaries
+  - name: release-notes
 
 run:
   path: proctor-source/ci/prep-release.sh
 
-params: {}
+params:
+  GIT_USER_EMAIL: bosh101-proctor-ci-bot@users.noreply.github.com
+  GIT_USER_NAME: Proctor CI Bot
