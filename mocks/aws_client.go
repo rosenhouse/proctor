@@ -54,7 +54,8 @@ type AWSClient struct {
 		}
 
 		Returns struct {
-			URL string
+			URL   string
+			Error error
 		}
 	}
 
@@ -133,9 +134,9 @@ func (c *AWSClient) DeleteObject(name string) error {
 	return c.DeleteObjectCall.Returns.Error
 }
 
-func (c *AWSClient) URLForObject(name string) string {
+func (c *AWSClient) URLForObject(name string) (string, error) {
 	c.URLForObjectCall.Receives.Name = name
-	return c.URLForObjectCall.Returns.URL
+	return c.URLForObjectCall.Returns.URL, c.URLForObjectCall.Returns.Error
 }
 
 func (c *AWSClient) CreateStack(name string, template string, parameters map[string]string) (string, error) {

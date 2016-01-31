@@ -25,9 +25,25 @@ var _ = Describe("S3", func() {
 		contentType = "application/octet-stream"
 	})
 
+	Describe("Getting the bucket name", func() {
+		It("should return a name that is based on the account number", func() {
+			bucketName, err := awsClient.GetBucketName()
+			Expect(err).NotTo(HaveOccurred())
+
+			accountNumber, err := awsClient.GetAccountNumber()
+			Expect(err).NotTo(HaveOccurred())
+
+			expectedName := fmt.Sprintf("bosh101-proctor-%s", accountNumber)
+			Expect(bucketName).To(Equal(expectedName))
+		})
+
+	})
+
 	It("should store and delete objects at a public URL", func() {
 		By("getting the public URL", func() {
-			url = awsClient.URLForObject(name)
+			var err error
+			url, err = awsClient.URLForObject(name)
+			Expect(err).NotTo(HaveOccurred())
 			Expect(url).NotTo(BeEmpty())
 		})
 

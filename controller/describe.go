@@ -16,7 +16,10 @@ func (c *Controller) DescribeClassroom(name, format string) (string, error) {
 		return "", err
 	}
 
-	keyURL := c.AWSClient.URLForObject("keys/" + prefixedName)
+	keyURL, err := c.AWSClient.URLForObject("keys/" + prefixedName)
+	if err != nil {
+		return "", err
+	}
 
 	var description struct {
 		Status string            `json:"status"`

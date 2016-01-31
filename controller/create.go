@@ -33,7 +33,10 @@ func (c *Controller) CreateClassroom(name string, number int) error {
 	}
 
 	s3Name := "keys/" + prefixedName
-	s3URL := c.AWSClient.URLForObject(s3Name)
+	s3URL, err := c.AWSClient.URLForObject(s3Name)
+	if err != nil {
+		return err
+	}
 	c.Log.Println(0, "Uploading private key to %s", c.Log.Green("%s", s3URL))
 	err = c.AWSClient.StoreObject(
 		s3Name, []byte(privateKeyPEMBytes),

@@ -38,7 +38,6 @@ func newControllerFromEnv() controller.Controller {
 		AccessKey:  loadOrFail("AWS_ACCESS_KEY_ID"),
 		SecretKey:  loadOrFail("AWS_SECRET_ACCESS_KEY"),
 		RegionName: awsRegion,
-		Bucket:     "bosh101-proctor",
 	})
 	say.ExitIfError("internal error: unable to create AWS client", err)
 	parallelRunner := &shell.ParallelRunner{Runner: &shell.Runner{}}

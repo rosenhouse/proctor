@@ -12,7 +12,7 @@ type awsClient interface {
 	ListKeys(prefix string) ([]string, error)
 	StoreObject(name string, bytes []byte, downloadFileName, contentType string) error
 	DeleteObject(name string) error
-	URLForObject(name string) string
+	URLForObject(name string) (string, error)
 	CreateStack(name string, template string, parameters map[string]string) (string, error)
 	DeleteStack(name string) error
 	DescribeStack(name string) (string, string, map[string]string, error)

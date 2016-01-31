@@ -20,7 +20,10 @@ func (c *Controller) RunOnVMs(name, command string) error {
 		return fmt.Errorf("classroom is not operational (status '%s'), aborting", stackStatus)
 	}
 
-	s3URL := c.AWSClient.URLForObject("keys/" + prefixedName)
+	s3URL, err := c.AWSClient.URLForObject("keys/" + prefixedName)
+	if err != nil {
+		return err
+	}
 	pemBytes, err := c.WebClient.Get(s3URL)
 	if err != nil {
 		return fmt.Errorf("getting SSH key: %s", err)

@@ -21,14 +21,12 @@ type Endpoints struct {
 }
 
 type Client struct {
-	EC2            EC2Client
-	S3             S3Client
-	Route53        Route53Client
-	Cloudformation CloudformationClient
-	IAM            IAMClient
-	// HostedZoneID   string
-	// HostedZoneName string
-	Bucket string
+	EC2              EC2Client
+	S3               S3Client
+	Route53          Route53Client
+	Cloudformation   CloudformationClient
+	IAM              IAMClient
+	cachedBucketName string
 }
 
 type IAMClient interface {
@@ -68,12 +66,9 @@ func (e *AWSError) Error() string {
 }
 
 type Config struct {
-	AccessKey  string
-	SecretKey  string
-	RegionName string
-	// HostedZoneID      string
-	// HostedZoneName    string
-	Bucket            string
+	AccessKey         string
+	SecretKey         string
+	RegionName        string
 	EndpointOverrides map[string]string
 }
 
@@ -128,9 +123,6 @@ func New(config Config) (*Client, error) {
 		Route53:        route53.New(session, route53EndpointConfig),
 		Cloudformation: cloudformation.New(session, cloudformationEndpointConfig),
 		IAM:            iam.New(session, iamEndpointConfig),
-		// HostedZoneID:   config.HostedZoneID,
-		// HostedZoneName: config.HostedZoneName,
-		Bucket: config.Bucket,
 	}, nil
 }
 
