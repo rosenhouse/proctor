@@ -26,21 +26,15 @@ var _ = Describe("S3", func() {
 	})
 
 	Describe("Getting the bucket name", func() {
-		It("should return a name that is based on the account number", func() {
+		It("should return a name that is based on the account number and region", func() {
 			bucketName, err := awsClient.GetBucketName()
 			Expect(err).NotTo(HaveOccurred())
 
 			accountNumber, err := awsClient.GetAccountNumber()
 			Expect(err).NotTo(HaveOccurred())
 
-			expectedName := fmt.Sprintf("bosh101-proctor-%s", accountNumber)
+			expectedName := fmt.Sprintf("bosh101-proctor-%s-%s", accountNumber, awsClient.Region)
 			Expect(bucketName).To(Equal(expectedName))
-		})
-	})
-
-	Describe("Ensuring that the bucket exists", func() {
-		It("should create a bucket if needed", func() {
-			Expect(awsClient.EnsureBucketExists("gabe-test-1222")).To(Succeed())
 		})
 	})
 

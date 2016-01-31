@@ -56,7 +56,7 @@ func (c *Client) GetBucketName() (string, error) {
 		if err != nil {
 			return "", err
 		}
-		c.cachedBucketName = fmt.Sprintf("bosh101-proctor-%s", accountNumber)
+		c.cachedBucketName = fmt.Sprintf("bosh101-proctor-%s-%s", accountNumber, c.Region)
 	}
 
 	return c.cachedBucketName, nil

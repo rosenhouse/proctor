@@ -26,6 +26,7 @@ type Client struct {
 	Route53          Route53Client
 	Cloudformation   CloudformationClient
 	IAM              IAMClient
+	Region           string
 	cachedBucketName string
 }
 
@@ -119,6 +120,7 @@ func New(config Config) (*Client, error) {
 	}
 
 	return &Client{
+		Region:         config.RegionName,
 		EC2:            ec2.New(session, ec2EndpointConfig),
 		S3:             s3.New(session, s3EndpointConfig),
 		Route53:        route53.New(session, route53EndpointConfig),
