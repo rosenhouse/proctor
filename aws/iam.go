@@ -33,7 +33,7 @@ type ARN struct {
 }
 
 // ParseARN parses an ARN string into its component fields
-func (c Client) ParseARN(arnString string) (ARN, error) {
+func (c *Client) ParseARN(arnString string) (ARN, error) {
 	const numExpectedParts = 6
 	parts := strings.SplitN(arnString, ":", numExpectedParts)
 	if len(parts) < numExpectedParts {
