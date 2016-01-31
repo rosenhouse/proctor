@@ -4,9 +4,9 @@ image: docker:///golang
 platform: linux
 
 inputs:
-  - name: bosh-proctor
+  - name: proctor-source
 
 run:
-  path: bosh-proctor/ci/test.sh
+  path: proctor-source/ci/test.sh
 
 params: {}

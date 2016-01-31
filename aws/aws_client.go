@@ -5,11 +5,12 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
+	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/cloudformation"
 	"github.com/aws/aws-sdk-go/service/ec2"
+	"github.com/aws/aws-sdk-go/service/iam"
 	"github.com/aws/aws-sdk-go/service/route53"
 	"github.com/aws/aws-sdk-go/service/s3"
-	"github.com/aws/aws-sdk-go/aws/session"
 )
 
 type Endpoints struct {
@@ -24,9 +25,14 @@ type Client struct {
 	S3             S3Client
 	Route53        Route53Client
 	Cloudformation CloudformationClient
+	IAM            IAMClient
 	// HostedZoneID   string
 	// HostedZoneName string
 	Bucket string
+}
+
+type IAMClient interface {
+	GetUser(input *iam.GetUserInput) (*iam.GetUserOutput, error)
 }
 
 type S3Client interface {
@@ -68,7 +74,7 @@ type Config struct {
 	// HostedZoneID      string
 	// HostedZoneName    string
 	Bucket            string
-		EndpointOverrides         map[string]string
+	EndpointOverrides map[string]string
 }
 
 func (c *Config) getEndpoint(serviceName string) (*aws.Config, error) {
@@ -92,30 +98,36 @@ func New(config Config) (*Client, error) {
 	session := session.New(sdkConfig)
 
 	route53EndpointConfig, err := config.getEndpoint("route53")
-if err != nil {
-	return nil, err
-}
+	if err != nil {
+		return nil, err
+	}
 
 	ec2EndpointConfig, err := config.getEndpoint("ec2")
-if err != nil {
-	return nil, err
-}
+	if err != nil {
+		return nil, err
+	}
 
 	s3EndpointConfig, err := config.getEndpoint("s3")
-if err != nil {
-	return nil, err
-}
+	if err != nil {
+		return nil, err
+	}
 
 	cloudformationEndpointConfig, err := config.getEndpoint("cloudformation")
-if err != nil {
-	return nil, err
-}
+	if err != nil {
+		return nil, err
+	}
+
+	iamEndpointConfig, err := config.getEndpoint("iam")
+	if err != nil {
+		return nil, err
+	}
 
 	return &Client{
 		EC2:            ec2.New(session, ec2EndpointConfig),
 		S3:             s3.New(session, s3EndpointConfig),
 		Route53:        route53.New(session, route53EndpointConfig),
 		Cloudformation: cloudformation.New(session, cloudformationEndpointConfig),
+		IAM:            iam.New(session, iamEndpointConfig),
 		// HostedZoneID:   config.HostedZoneID,
 		// HostedZoneName: config.HostedZoneName,
 		Bucket: config.Bucket,
