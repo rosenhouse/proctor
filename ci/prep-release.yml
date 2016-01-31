@@ -1,0 +1,17 @@
+---
+image: docker:///golang
+
+platform: linux
+
+inputs:
+  - name: proctor-source
+  - name: version
+
+outputs:
+  - name: bin
+  - name: notes
+
+run:
+  path: proctor-source/ci/prep-release.sh
+
+params: {}
