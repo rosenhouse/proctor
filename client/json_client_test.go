@@ -9,7 +9,7 @@ import (
 	. "github.com/onsi/gomega"
 	"github.com/onsi/gomega/ghttp"
 
-	"github.com/rosenhouse/bosh-proctor/client"
+	"github.com/rosenhouse/proctor/client"
 )
 
 var _ = Describe("JSON Client", func() {

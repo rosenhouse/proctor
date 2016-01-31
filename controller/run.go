@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/hashicorp/go-multierror"
-	"github.com/rosenhouse/bosh-proctor/shell"
+	"github.com/rosenhouse/proctor/shell"
 )
 
 func (c *Controller) RunOnVMs(name, command string) error {

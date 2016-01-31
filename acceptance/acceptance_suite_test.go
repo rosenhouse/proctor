@@ -22,7 +22,7 @@ var proctorCLIPath string
 var _ = BeforeSuite(func() {
 	rand.Seed(config.GinkgoConfig.RandomSeed)
 	var err error
-	proctorCLIPath, err = gexec.Build("github.com/rosenhouse/bosh-proctor")
+	proctorCLIPath, err = gexec.Build("github.com/rosenhouse/proctor")
 	Expect(err).NotTo(HaveOccurred())
 })
 

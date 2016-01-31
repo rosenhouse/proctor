@@ -6,7 +6,7 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	"github.com/rosenhouse/bosh-proctor/shell"
+	"github.com/rosenhouse/proctor/shell"
 )
 
 var _ = XDescribe("Shell", func() {

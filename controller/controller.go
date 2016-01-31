@@ -1,6 +1,6 @@
 package controller
 
-import "github.com/rosenhouse/bosh-proctor/shell"
+import "github.com/rosenhouse/proctor/shell"
 
 type atlasClient interface {
 	GetLatestAMIs(string) (map[string]string, error)

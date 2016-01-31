@@ -8,8 +8,8 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	"github.com/rosenhouse/bosh-proctor/controller"
-	"github.com/rosenhouse/bosh-proctor/mocks"
+	"github.com/rosenhouse/proctor/controller"
+	"github.com/rosenhouse/proctor/mocks"
 )
 
 var _ = Describe("DescribeClassroom", func() {

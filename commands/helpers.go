@@ -8,11 +8,11 @@ import (
 	"reflect"
 
 	"github.com/onsi/say"
-	"github.com/rosenhouse/bosh-proctor/aws"
-	"github.com/rosenhouse/bosh-proctor/aws/templates"
-	"github.com/rosenhouse/bosh-proctor/client"
-	"github.com/rosenhouse/bosh-proctor/controller"
-	"github.com/rosenhouse/bosh-proctor/shell"
+	"github.com/rosenhouse/proctor/aws"
+	"github.com/rosenhouse/proctor/aws/templates"
+	"github.com/rosenhouse/proctor/client"
+	"github.com/rosenhouse/proctor/controller"
+	"github.com/rosenhouse/proctor/shell"
 )
 
 func loadOrFail(varName string) string {

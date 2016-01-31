@@ -9,8 +9,8 @@ import (
 	. "github.com/onsi/gomega"
 	"github.com/onsi/gomega/ghttp"
 
-	"github.com/rosenhouse/bosh-proctor/client"
-	"github.com/rosenhouse/bosh-proctor/mocks"
+	"github.com/rosenhouse/proctor/client"
+	"github.com/rosenhouse/proctor/mocks"
 )
 
 var _ = Describe("AtlasClient", func() {

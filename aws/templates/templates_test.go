@@ -6,7 +6,7 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	"github.com/rosenhouse/bosh-proctor/aws/templates"
+	"github.com/rosenhouse/proctor/aws/templates"
 )
 
 var _ = Describe("DefaultTemplate", func() {

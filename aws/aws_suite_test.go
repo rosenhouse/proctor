@@ -10,7 +10,7 @@ import (
 	. "github.com/onsi/gomega"
 	"github.com/onsi/say"
 
-	"github.com/rosenhouse/bosh-proctor/aws"
+	"github.com/rosenhouse/proctor/aws"
 
 	"testing"
 )

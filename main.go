@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/onsi/say"
-	"github.com/rosenhouse/bosh-proctor/commands"
+	"github.com/rosenhouse/proctor/commands"
 )
 
 func main() {

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/rosenhouse/bosh-proctor/shell"
+	"github.com/rosenhouse/proctor/shell"
 )
 
 type ConnectAndRunCall struct {
