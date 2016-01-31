@@ -5,6 +5,23 @@ resources:
       uri: git://github.com/rosenhouse/proctor
       branch: master
 
+  - name: version
+    type: semver
+    source:
+      driver: git
+      uri: git@github.com:rosenhouse/proctor
+      branch: version
+      file: version
+      private_key: {{ci_bot_github_ssh_key}}
+
+  - name: github-release
+    type: github-release
+    source:
+      user: rosenhouse
+      repository: proctor
+      access_token: {{ci_bot_github_token}}
+      drafts: true
+
 jobs:
   - name: test
     plan:
@@ -12,3 +29,24 @@ jobs:
         trigger: true
       - task: test
         file: proctor-source/ci/test.yml
+
+  - name: shipit
+    plan:
+      - aggregate:
+        - get: proctor-source
+          passed: [test]
+        - get: version
+          params: {bump: minor}
+      - task: prep-release
+        file: proctor-source/ci/prep-release.yml
+      - aggregate:
+        - put: version
+          params: { file: version/number }
+        - put: github-release
+          params:
+            name: prep-release/notes/name
+            tag: prep-release/notes/name
+            # body: prep-release/notes/name
+            commitish: prep-prelease/notes/commitish
+            globs:
+              - prep-release/bin/*
