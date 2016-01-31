@@ -1,9 +1,11 @@
 # proctor
 A tool for running BOSH 101 classrooms.
 
-[Pivotal Tracker project](https://www.pivotaltracker.com/n/projects/1434846)
+- [Binary releases](https://github.com/rosenhouse/proctor/releases)
 
-[Concourse CI Pipeline](https://proctor.ci.cf-app.com/)
+- [Pivotal Tracker project](https://www.pivotaltracker.com/n/projects/1434846)
+
+- [Concourse CI Pipeline](https://proctor.ci.cf-app.com/)
 
 
 ### Basic usage
