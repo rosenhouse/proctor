@@ -17,9 +17,11 @@ export GO15VENDOREXPERIMENT=1
 
 cd src/github.com/rosenhouse/proctor
 
-for os in linux darwin windows; do
-  GOOS=$os go build -o $OUT_BINARIES/proctor-$os
+for GOOS in linux darwin windows; do
+  go build -o $OUT_BINARIES/proctor-$GOOS &
 done
+
+wait
 
 git config --global user.email "$GIT_USER_EMAIL"
 git config --global user.name "$GIT_USER_NAME"

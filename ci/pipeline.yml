@@ -39,14 +39,12 @@ jobs:
           params: {bump: minor}
       - task: prep-release
         file: proctor-source/ci/prep-release.yml
-      - aggregate:
-        - put: version
-          params: { file: version/number }
-        - put: github-release
-          params:
-            name: prep-release/notes/name
-            tag: prep-release/notes/name
-            # body: prep-release/notes/name
-            commitish: prep-prelease/notes/commitish
-            globs:
-              - prep-release/bin/*
+      - put: github-release
+        params:
+          name: release-notes/name
+          tag: release-notes/name
+          commitish: release-notes/commitish
+          globs:
+            - binaries/*
+      - put: version
+        params: { file: version/number }
