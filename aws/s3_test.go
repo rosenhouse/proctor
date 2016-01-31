@@ -36,7 +36,12 @@ var _ = Describe("S3", func() {
 			expectedName := fmt.Sprintf("bosh101-proctor-%s", accountNumber)
 			Expect(bucketName).To(Equal(expectedName))
 		})
+	})
 
+	Describe("Ensuring that the bucket exists", func() {
+		It("should create a bucket if needed", func() {
+			Expect(awsClient.EnsureBucketExists("gabe-test-1222")).To(Succeed())
+		})
 	})
 
 	It("should store and delete objects at a public URL", func() {
@@ -50,7 +55,9 @@ var _ = Describe("S3", func() {
 		By("checking that no object exists yet", func() {
 			check, err := http.Get(url)
 			Expect(err).NotTo(HaveOccurred())
-			Expect(check.StatusCode).To(Equal(http.StatusForbidden))
+			if check.StatusCode != 404 && check.StatusCode != 403 {
+				Fail(fmt.Sprintf("unexpected status code: %d", check.StatusCode))
+			}
 			Expect(check.Body.Close()).To(Succeed())
 		})
 

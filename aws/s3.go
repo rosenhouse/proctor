@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/service/s3"
 )
 
@@ -12,6 +13,9 @@ func (c *Client) StoreObject(name string, dataBytes []byte,
 	downloadFileName string, contentType string) error {
 	bucketName, err := c.GetBucketName()
 	if err != nil {
+		return err
+	}
+	if err = c.EnsureBucketExists(bucketName); err != nil {
 		return err
 	}
 	_, err = c.S3.PutObject(&s3.PutObjectInput{
@@ -56,4 +60,25 @@ func (c *Client) GetBucketName() (string, error) {
 	}
 
 	return c.cachedBucketName, nil
+}
+
+func (c *Client) EnsureBucketExists(bucketName string) error {
+	_, err := c.S3.CreateBucket(&s3.CreateBucketInput{
+		Bucket: aws.String(bucketName),
+	})
+	if isAlreadyOwnedByMeError(err) {
+		return nil
+	}
+	return err
+}
+
+// returns true if and only if the provided err is
+// non-nil and is the S3 "BucketAlreadyOwnedByYou" error
+// which occurs when trying to create a bucket that this account
+// already owns
+func isAlreadyOwnedByMeError(err error) bool {
+	if awsErr, ok := err.(awserr.Error); ok {
+		return awsErr.Code() == "BucketAlreadyOwnedByYou"
+	}
+	return false
 }

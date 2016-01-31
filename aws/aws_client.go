@@ -36,6 +36,7 @@ type IAMClient interface {
 type S3Client interface {
 	PutObject(input *s3.PutObjectInput) (*s3.PutObjectOutput, error)
 	DeleteObject(input *s3.DeleteObjectInput) (*s3.DeleteObjectOutput, error)
+	CreateBucket(input *s3.CreateBucketInput) (*s3.CreateBucketOutput, error)
 }
 
 type EC2Client interface {
