@@ -11,4 +11,4 @@ jobs:
       - get: proctor-source
         trigger: true
       - task: test
-        file: proctor/ci/test.yml
+        file: proctor-source/ci/test.yml

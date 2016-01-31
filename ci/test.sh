@@ -2,7 +2,7 @@
 set -e -u -x
 
 mkdir -p go/src/github.com/rosenhouse/
-cp -a proctor go/src/github.com/rosenhouse/proctor
+cp -a proctor-source go/src/github.com/rosenhouse/proctor
 cd go
 
 export GOPATH=$PWD
