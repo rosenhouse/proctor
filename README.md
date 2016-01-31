@@ -9,7 +9,7 @@ A tool for running BOSH 101 classrooms.
 ### Basic usage
 0. Load credentials for your AWS environment
     ```
-    export AWS_DEFAULT_REGION=us-east-1
+    export AWS_DEFAULT_REGION=us-east-1  # this can be any region that has a BOSH-lite AMI
     export AWS_ACCESS_KEY_ID=YOUR-ACCESS-KEY
     export AWS_SECRET_ACCESS_KEY=YOUR-SECRET-KEY
     ```
