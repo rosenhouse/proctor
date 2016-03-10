@@ -5,8 +5,6 @@ A tool for running BOSH 101 classrooms.
 
 - [Pivotal Tracker project](https://www.pivotaltracker.com/n/projects/1434846)
 
-- [Concourse CI Pipeline](https://proctor.ci.cf-app.com/)
-
 
 ### Basic usage
 0. Load credentials for your AWS environment
