@@ -63,17 +63,11 @@
 					"cd /home/ubuntu",
 					"sudo -u ubuntu mkdir -p workspace",
 					"sudo -u ubuntu curl -L -o workspace/stemcell.tgz https://s3.amazonaws.com/bosh-warden-stemcells/bosh-stemcell-2776-warden-boshlite-ubuntu-trusty-go_agent.tgz",
-					"sudo -u ubuntu git clone git://github.com/pivotal-cf-experimental/dummy-boshrelease workspace/dummy ",
+					"sudo -u ubuntu git clone git://github.com/cloudfoundry-incubator/etcd-release workspace/etcd-release ",
 					"sudo -u ubuntu curl -L -o tmp/spiff.zip https://github.com/cloudfoundry-incubator/spiff/releases/download/v1.0.6/spiff_linux_amd64.zip ",
 					"sudo -u ubuntu unzip tmp/spiff.zip -d tmp/ ",
 					"mv tmp/spiff /usr/local/bin/spiff ",
-					"export  UUID=$(bosh status --uuid) ",
-					"echo -e \"---\nname: first\ndirector_uuid:  <%= \\`bosh status --uuid\\` %> \" >  tmp/stub-first.yml ",
-					"echo -e \"---\nname: second\ndirector_uuid: <%= \\`bosh status --uuid\\` %> \" >  tmp/stub-second.yml ",
-					"pushd workspace/dummy ",
-					"    spiff merge templates/dummy-deployment.yml ../../tmp/stub-first.yml >  ../first-deployment-manifest.yml ",
-					"    spiff merge templates/all-jobs-dummy-deployment.yml ../../tmp/stub-second.yml >  ../second-deployment-manifest.yml ",
-					"popd ",
+					"cp workspace/etcd-release/manifests/bosh-lite/3-node-no-ssl.yml workspace/etcd-manifest.yml ",
 					"chown -R ubuntu workspace "
         ]]}}
       }
