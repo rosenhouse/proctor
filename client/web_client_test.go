@@ -57,7 +57,7 @@ var _ = Describe("Web Client", func() {
 		Context("when the request cannot be created", func() {
 			It("should return an error", func() {
 				_, err := c.Get(server.URL() + "%%%")
-				Expect(err).To(MatchError(ContainSubstring("percent-encoded characters in host")))
+				Expect(err).To(MatchError(ContainSubstring("parse")))
 			})
 		})
 

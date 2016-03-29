@@ -57,7 +57,7 @@ var _ = Describe("JSON Client", func() {
 		Context("when the request cannot be created", func() {
 			It("should return an error", func() {
 				err := c.Get("%%%", &responseStruct)
-				Expect(err).To(MatchError(ContainSubstring("percent-encoded characters in host")))
+				Expect(err).To(MatchError(ContainSubstring("parse")))
 			})
 		})
 
