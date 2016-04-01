@@ -17,8 +17,8 @@ export GO15VENDOREXPERIMENT=1
 
 cd src/github.com/rosenhouse/proctor
 
-for GOOS in linux darwin windows; do
-  go build -o $OUT_BINARIES/proctor-$GOOS &
+for os in linux darwin windows; do
+  GOOS=$os go build -o $OUT_BINARIES/proctor-$os &
 done
 
 wait
